@@ -27,25 +27,62 @@ df['BMI'] = df['BMI'].fillna(round(rata_BMI))
 X = df[['Glukosa','Tekanan_Darah','BMI','Umur']]
 y = df['Diabetes']
 
-x_train, x_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_state=1)
+# x_train, x_test, y_train, y_test = train_test_split(X,y,test_size=0.2, random_state=42)
 
 model = KNeighborsClassifier(n_neighbors=5)
 
-model.fit(x_train,y_train)
+# model.fit(x_train,y_train)
 
-tes = model.predict(x_test)
-evaluasi = accuracy_score(y_test, tes)
+# tes = model.predict(x_test)
+# evaluasi = accuracy_score(y_test, tes)
 
-print(f"DATA ASLI : \n{y_test.values}")
-print(f"Prediksi AI : \n{tes}")
-print(f"Skor akurasi : \n{round(evaluasi*100)}%")
+# print(f"DATA ASLI : \n{y_test.values}")
+# print(f"Prediksi AI : \n{tes}")
+# print(f"Skor akurasi : \n{round(evaluasi*100)}%")
 
-pasien_baru = [[150,70,30,45]]
+# pasien_baru = [[150,70,30,45]]
 
-prediksi = model.predict(pasien_baru)
+# prediksi = model.predict(pasien_baru)
 
-if prediksi == 1:
-    print("Pasien menderita Diabetes!")
+model.fit(X,y)
 
-else:
-    print("Pasien Negatif Diabetes")
+print("AI PREDIKSI DIABETES")
+print("="*40)
+
+while True:
+
+    print("\n--- INPUT PASIEN BARU ---")
+    print("Ketik 'X' untuk keluar program")
+
+    input_glukosa = input("Masukkan kadar Glukosa : ")
+    if input_glukosa.lower() == 'x':break
+
+    input_tensi = input("Masukkan Tekanan Darah : ")
+    input_bmi = input("Masukkan BMI : ")
+    input_umur = input("Masukkan Umur : ")
+
+    try:
+        glukosa = int(input_glukosa)
+        tensi = int(input_tensi)
+        bmi = float(input_bmi)
+        umur = int(input_umur)
+
+        data_baru = [[glukosa,tensi,bmi,umur]]
+
+        prediksi = model.predict(data_baru)
+
+        if prediksi[0] == 1:
+            print("⚠️ PERINGATAN Pasien Terindikasi DIABETES")
+        
+        else:
+            print("✅ Pasien Terindikasi SEHAT (Negatif)")
+    
+    except ValueError:
+            print("ERROR Tolong masukkan angka saja")
+    
+    print('-'*30)
+
+print("Program Selesai")
+
+
+        
